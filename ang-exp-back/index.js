@@ -2,9 +2,15 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+var logger = require('morgan'); 
 
-var indexRouter = require('./routes/index');
+var allowCrossDomain = function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', req.get('origin'));
+  res.header('Access-Control-Allow-Headers', 'Method');
+  res.header('Access-Control-Request-Headers', 'method');
+  res.header('Access-Control-Allow-Credentials', true);
+  next();
+};
 
 var app = express();
 
@@ -18,7 +24,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public'))); 
 
-app.use('/', indexRouter);
+// Enable CORS Setup
+app.use(allowCrossDomain); 
+
+// Routing URL
+app.use('/', require('./routes/index'));
 app.use(require('./routes/user-routes'));
 
 // catch 404 and forward to error handler

@@ -1,0 +1,37 @@
+@import '~@swimlane/ngx-datatable/release/index.css';
+@import '~@swimlane/ngx-datatable/release/themes/material.css';
+@import '~@swimlane/ngx-datatable/release/assets/icons.css';
+
+.ngx-datatable.material {
+  box-shadow: none;
+  border: 2px solid #f1f1f1;
+  border-top: 0;
+  &.datatable-normal{
+    .datatable-header{
+      .datatable-header-cell{
+        background: lighten($color: $black, $amount: 90%);
+        color: lighten($color: $black, $amount: 20%);
+      }
+    }
+  }
+  .datatable-header {
+    .resize-handle{
+      border: 0;
+    }
+    .datatable-header-cell {
+      background: #1077ff;
+      color: $white;
+      font: {
+        size: inherit;
+        weight: bold;
+      }
+    }
+  }
+  .datatable-scroll{
+    width: auto !important;
+    a {
+      color: lighten($color: $black, $amount: 20%);
+      border-bottom: 1px solid;
+    }
+  }
+}

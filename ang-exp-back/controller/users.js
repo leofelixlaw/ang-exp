@@ -10,11 +10,11 @@ const pool = new Pool({
 
 // Get users
 const getUsers = (req, rep) => {
-  pool.query('SELECT * FROM users ORDER BY first_name ASC', (error, results) => { //  ORDER BY id ASC
+  pool.query('SELECT * FROM users ORDER BY name ASC', (error, results) => { //  ORDER BY id ASC
     if (error) {
       throw error;
     }
-    rep.render('layout', { title: 'Users list' , users: results.rows });
+    // rep.render('layout', { title: 'Users list' , users: results.rows });
     return rep.json(results.rows);
   });
 };
@@ -31,9 +31,9 @@ const getUserById = (req, rep) => {
 
 // Create new user
 const createUser = (req, rep) => {
-  const {first_name, last_name, email, phone} = req.body;
+  const {name, email, phone} = req.body;
 
-  pool.query('INSERT INTO users (first_name, last_name, email, phone) VALUES ($1, $2, $3, $4)', [first_name, last_name, email, phone], (error, results) => {
+  pool.query('INSERT INTO users (name, email, phone) VALUES ($1, $2, $3, $4)', [name, email, phone], (error, results) => {
     if (error) { throw error; }
     rep.status(201).send(`User added with ID: ${results.insertId}`);
   });
@@ -52,11 +52,11 @@ const deleteUser = (req, rep) => {
 // Update user
 const updateUser = (req, rep) => {
   const id = req.params.id;
-  const {first_name, last_name, email, phone} = req.body;
+  const {name, email, phone} = req.body;
 
   pool.query(
     'UPDATE users SET first_name = $1, last_name = $2, email = $3, phone = $4 WHERE user_id = $5',
-    [first_name, last_name, email, phone, id],
+    [name, email, phone, id],
     (error) => {
       if (error) { throw error; }
       rep.status(200).send(`User modified with ID: ${id}`);
