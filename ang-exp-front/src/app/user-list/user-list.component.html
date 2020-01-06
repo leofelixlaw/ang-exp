@@ -1,10 +1,28 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-7">
-        <ngx-datatable [rows]="list" class="material mt-5" [loadingIndicator]="loadingIndicator" [columnMode]="'force'"
+    <div class="col-sm-7">
+        <ngx-datatable (activate)="onActivate($event)" [rows]="list" class="material mt-5" [loadingIndicator]="loadingIndicator" [columnMode]="'force'"
         [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [columns]="columns" [limit]="5"
         [reorderable]="reorderable">
       </ngx-datatable>      
     </div>
+
+    <div class="col-sm-5">
+      <form class="mt-5 user-form" #thisForm="ngForm"> 
+        <h4>Add user</h4>
+        <div class="form-group">
+          <input type="text" class="form-control" name="name"  placeholder="Enter name" [(ngModel)]="user.name" required> 
+        </div>
+        <div class="form-group">
+          <input type="email" class="form-control" name="email" placeholder="Enter email" [(ngModel)]="user.email" required>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" name="phone" placeholder="Enter Phone no" [(ngModel)]="user.phone" required> 
+        </div>
+        <button type="button" class="btn btn-primary mr-2" [disabled]="thisForm.invalid || user.id" (click)="onSave()">Add</button>
+        <button type="button" class="btn btn-danger" [disabled]="!user.id" (click)="onDelete()">Delete</button>
+      </form>   
+  </div>
+
   </div>
 </div>

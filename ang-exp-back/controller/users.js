@@ -3,7 +3,7 @@ require('dotenv').config();
 const pool = new Pool({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
-  database: process.env.DB_USER,
+  database: process.env.DB_NAME,
   password: process.env.DB_PASS,
   port: process.env.DB_PORT,
 });
@@ -23,7 +23,7 @@ const getUsers = (req, rep) => {
 // Get users by id
 const getUserById = (req, rep) => {
   const id = req.params.id;
-  pool.query('SELECT * FROM users WHERE user_id = $1', [id], (error, results) => {
+  pool.query('SELECT * FROM users WHERE id = $1', [id], (error, results) => {
     if (error) { throw error; }
     rep.status(200).json(results.rows);
   });
@@ -31,19 +31,22 @@ const getUserById = (req, rep) => {
 
 // Create new user
 const createUser = (req, rep) => {
-  const {name, email, phone} = req.body;
+  const { name, email, phone } = req.body;
 
-  pool.query('INSERT INTO users (name, email, phone) VALUES ($1, $2, $3, $4)', [name, email, phone], (error, results) => {
-    if (error) { throw error; }
+  pool.query('INSERT INTO users (name, email) VALUES ($1, $2, $3)', [name, email, phone], (error, results) => {
+    if (error) {
+      throw error;
+    }
     rep.status(201).send(`User added with ID: ${results.insertId}`);
   });
 };
 
 // Delete user by id
 
-const deleteUser = (req, rep) => {
+const deleteUser = async (req, rep) => {
+  console.log('delete')
   const id = req.params.id;
-  pool.query('DELETE FROM users WHERE user_id = $1', [id], (error, results) => {
+  pool.query('DELETE FROM users WHERE id = $1', [id], (error, results) => {
     if (error) { throw error; }
     rep.status(200).send(`User deleted with ID: ${id}`);
   });
@@ -55,7 +58,7 @@ const updateUser = (req, rep) => {
   const {name, email, phone} = req.body;
 
   pool.query(
-    'UPDATE users SET first_name = $1, last_name = $2, email = $3, phone = $4 WHERE user_id = $5',
+    'UPDATE users SET first_name = $1, last_name = $2, email = $3, phone = $4 WHERE id = $5',
     [name, email, phone, id],
     (error) => {
       if (error) { throw error; }

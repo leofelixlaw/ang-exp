@@ -8,15 +8,15 @@ import { HandleErrorService } from "../../shared/services/handle-error.service";
   providedIn: "root"
 })
 export class CrudService {
-  url = "http://localhost:3000/";
+  url = 'http://localhost:3000/user';
 
   constructor(
     private httpClient: HttpClient,
     private handleErrorService: HandleErrorService
   ) {}
 
-  getUsers(): Observable<any> {
-    return this.httpClient.get<any[]>(this.url + 'users').pipe(
+  getItems(): Observable<any> {
+    return this.httpClient.get<any[]>(this.url + '/list').pipe(
       tap(_ => console.log("User item fetch successfull")),
       catchError(this.handleErrorService.handle("User getList", []))
     );
@@ -29,24 +29,24 @@ export class CrudService {
   //   );
   // }
 
-  // saveItem(data: any): Observable<any> {
-  //   return this.httpClient.post<any>(this.url, data).pipe(
-  //     tap(_ => console.log("sms save successfull")),
-  //     catchError(this.handleErrorService.handleError)
-  //   );
-  // }
+  saveItem(data: any): Observable<any> {
+    return this.httpClient.post<any>(this.url + '/new', data).pipe(
+      tap(_ => console.log("item save successfull")),
+      catchError(this.handleErrorService.handleError)
+    );
+  }
 
-  // putItem(id: number, data: any): Observable<any> {
-  //   return this.httpClient.put<any>(this.url + "/" + id, data).pipe(
-  //     tap(_ => console.log("sms save successfull")),
-  //     catchError(this.handleErrorService.handleError)
-  //   );
-  // }
+  putItem(id: number, data: any): Observable<any> {
+    return this.httpClient.put<any>(this.url + "/" + id, data).pipe(
+      tap(_ => console.log("item save successfull")),
+      catchError(this.handleErrorService.handleError)
+    );
+  }
 
-  // deleteItem(id: number): Observable<any> {
-  //   return this.httpClient.delete<any>(this.url + "/" + id).pipe(
-  //     tap(_ => console.log("sms deleted")),
-  //     catchError(this.handleErrorService.handleError)
-  //   );
-  // }
+  deleteItem(id: any): Observable<any> {
+    return this.httpClient.delete<any>(this.url + "/" + id).pipe(
+      tap(_ => console.log("item deleted")),
+      catchError(this.handleErrorService.handleError)
+    );
+  }
 }

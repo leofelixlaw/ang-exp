@@ -28,7 +28,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(allowCrossDomain); 
 
 // Routing URL
-app.use('/', require('./routes/index'));
 app.use(require('./routes/user-routes'));
 
 // catch 404 and forward to error handler

@@ -1,0 +1,26 @@
+$danger: #ff5722;
+$success: #4caf50;
+form{
+  position: relative;
+  padding: 1rem;
+  margin: 1rem -15px 0;
+  border: solid #f8f9fa;
+  border-width: .2rem;
+  padding-top: 0;
+}
+.user-form{
+  input{
+    border-left-width: 2px;
+    &.ng-invalid{
+      border-left-color: $danger;
+    }
+    &.ng-valid{
+      border-left-color: $success;
+    }
+  }
+}
+.form-control{
+  &:focus{
+    box-shadow: none;
+  }
+}
