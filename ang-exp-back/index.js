@@ -3,16 +3,18 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan'); 
+var cors = require('cors');
 
-var allowCrossDomain = function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', req.get('origin'));
-  res.header('Access-Control-Allow-Headers', 'Method');
-  res.header('Access-Control-Request-Headers', 'method');
-  res.header('Access-Control-Allow-Credentials', true);
-  next();
-};
+// var allowCrossDomain = function(req, res, next) {
+//   res.header('Access-Control-Allow-Origin', req.get('origin'));
+//   res.header('Access-Control-Allow-Headers', 'Method');
+//   res.header('Access-Control-Request-Headers', 'method');
+//   res.header('Access-Control-Allow-Credentials', true);
+//   next();
+// };
 
 var app = express();
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -25,7 +27,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public'))); 
 
 // Enable CORS Setup
-app.use(allowCrossDomain); 
+// app.use(allowCrossDomain); 
 
 // Routing URL
 app.use(require('./routes/user-routes'));

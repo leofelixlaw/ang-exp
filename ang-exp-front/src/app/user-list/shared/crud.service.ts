@@ -3,12 +3,16 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { catchError, tap } from "rxjs/operators";
 import { HandleErrorService } from "../../shared/services/handle-error.service";
+import { environment } from '../../../environments/environment';
+// import { text } from '@angular/core/src/render3';
 
 @Injectable({
   providedIn: "root"
 })
+
 export class CrudService {
-  url = 'http://localhost:3000/user';
+  url = environment.serverURL + '/user';
+  options = { responseType: 'text' as 'json' };
 
   constructor(
     private httpClient: HttpClient,
@@ -30,21 +34,21 @@ export class CrudService {
   // }
 
   saveItem(data: any): Observable<any> {
-    return this.httpClient.post<any>(this.url + '/new', data).pipe(
+    return this.httpClient.post<any>(this.url, data, this.options).pipe(
       tap(_ => console.log("item save successfull")),
       catchError(this.handleErrorService.handleError)
     );
   }
 
-  putItem(id: number, data: any): Observable<any> {
-    return this.httpClient.put<any>(this.url + "/" + id, data).pipe(
-      tap(_ => console.log("item save successfull")),
+  putItem(id: any, data: any): Observable<any> {
+    return this.httpClient.put<any>(this.url + "/" + id, data, this.options).pipe(
+      tap(_ => console.log("item edited successfull")),
       catchError(this.handleErrorService.handleError)
     );
   }
 
   deleteItem(id: any): Observable<any> {
-    return this.httpClient.delete<any>(this.url + "/" + id).pipe(
+    return this.httpClient.delete<any>(this.url + "/" + id, this.options).pipe(
       tap(_ => console.log("item deleted")),
       catchError(this.handleErrorService.handleError)
     );

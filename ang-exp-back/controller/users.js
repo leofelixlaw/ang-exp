@@ -32,19 +32,15 @@ const getUserById = (req, rep) => {
 // Create new user
 const createUser = (req, rep) => {
   const { name, email, phone } = req.body;
-
-  pool.query('INSERT INTO users (name, email) VALUES ($1, $2, $3)', [name, email, phone], (error, results) => {
-    if (error) {
-      throw error;
-    }
+  pool.query('INSERT INTO users (name, email, phone) VALUES ($1, $2, $3)', [name, email, phone], (error, results) => {
+    if (error) { throw error; }
     rep.status(201).send(`User added with ID: ${results.insertId}`);
   });
 };
 
 // Delete user by id
 
-const deleteUser = async (req, rep) => {
-  console.log('delete')
+const deleteUser = (req, rep) => {
   const id = req.params.id;
   pool.query('DELETE FROM users WHERE id = $1', [id], (error, results) => {
     if (error) { throw error; }
@@ -58,7 +54,7 @@ const updateUser = (req, rep) => {
   const {name, email, phone} = req.body;
 
   pool.query(
-    'UPDATE users SET first_name = $1, last_name = $2, email = $3, phone = $4 WHERE id = $5',
+    'UPDATE users SET name = $1, email = $2, phone = $3 WHERE id = $4',
     [name, email, phone, id],
     (error) => {
       if (error) { throw error; }
